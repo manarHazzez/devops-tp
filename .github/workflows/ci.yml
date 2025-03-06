@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   test:
@@ -31,4 +28,4 @@ jobs:
     needs: test
     steps:
       - name: Deploy App
-        run: echo "Deploying application..."
+        run: echo "Deploying application ..."

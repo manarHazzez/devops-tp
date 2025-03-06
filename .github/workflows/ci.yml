@@ -3,29 +3,22 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master   
+      - master
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-    - name: Install Dependencies
-      run: pip install -r ./requirements.txt  
+      - name: Install Dependencies
+        run: pip install -r requirements.txt  # Ceci installera uniquement les dépendances nécessaires
 
-    - name: Run Tests
-      run: python -m unittest discover -s hello-devops   
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-    - name: Deploy App
-      run: echo "Deploying application..."
+      - name: Run Tests
+        run: python -m unittest discover -s hello-devops  # Unittest est déjà intégré dans Python, pas besoin de l'installer

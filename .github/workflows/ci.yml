@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master  # Assurez-vous que vous poussez sur la branche master
+      - master   
 
 jobs:
   test:
@@ -18,10 +18,10 @@ jobs:
         python-version: '3.x'
 
     - name: Install Dependencies
-      run: pip install -r ../requirements.txt  # Utilisation du chemin relatif correct
+      run: pip install -r ./hello-devops/requirements.txt   
 
     - name: Run Tests
-      run: python -m unittest discover -s hello-devops  # Test dans hello-devops/
+      run: python -m unittest discover -s hello-devops   
 
   deploy:
     runs-on: ubuntu-latest

@@ -1,0 +1,28 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master  # Change en 'main' si c'est ta branche principale
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Utilise Ubuntu comme environnement pour l'exécution
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3  # Vérifie le code depuis GitHub
+      - name: Set up Python
+        uses: actions/setup-python@v4  # Installe Python
+        with:
+          python-version: '3.x'  # Utilise la dernière version de Python 3
+      - name: Install Dependencies
+        run: pip install -r hello-devops/requirements.txt  # Installe les dépendances
+      - name: Run Tests
+        run: python -m unittest discover -s hello-devops  # Exécute les tests
+
+  deploy:
+    runs-on: ubuntu-latest  # Déploiement sur un environnement Ubuntu
+    needs: test  # Ce job attend que le job 'test' soit terminé
+    steps:
+      - name: Deploy App
+        run: echo "Deploying application ..."  # Cette étape de déploiement est simulée ici

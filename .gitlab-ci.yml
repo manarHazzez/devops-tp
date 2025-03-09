@@ -1,9 +1,31 @@
-stages:
-  - test
+image: python:3.9
 
-test:
-  image: python:3.8
+stages:
+  - lint
+  - test
+  - deploy
+
+cache:
+  paths:
+    - .cache/pip
+
+lint-job:
+  stage: lint
+  script:
+    - pip install flake8
+    - flake8 hello-devops/
+
+test-job:
   stage: test
   script:
-    - pip install -r requirements.txt
-    - python -m unittest discover -s tests
+    - pip install -r hello-devops/requirements.txt
+    - python -m pytest hello-devops/
+  artifacts:
+    paths:
+      - test-results.txt
+
+deploy-job:
+  stage: deploy
+  script:
+    - echo "Déploiement en staging..."
+  when: manual  # Le déploiement se fait manuellement

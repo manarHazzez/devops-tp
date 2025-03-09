@@ -1,27 +1,21 @@
-name: CI
-
-on:
-  push:
-    branches:
-      - master
-
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9"]
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
-    
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-    
-    - name: Run Tests
-      run: |
-        python -m unittest discover -s tests -p "*.py"
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+      - name: Install dependencies
+        run: |
+          pip install -r hello-devops/requirements.txt
+          python -m pytest hello-devops/
+
+  notify:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Notification à Slack... (simulation)"
